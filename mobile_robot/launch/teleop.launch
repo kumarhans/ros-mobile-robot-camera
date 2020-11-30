@@ -6,9 +6,9 @@
     <node pkg="rqt_robot_steering" type="rqt_robot_steering" name="steering" ns="mobile_robot"/>
   </group>
 
-  <group unless="$(arg gui)">
+  <!-- <group unless="$(arg gui)">
     <node pkg="turtlesim" type="turtle_teleop_key" name="turtle_steering" ns="mobile_robot" output="screen">
       <remap from="/mobile_robot/turtle1/cmd_vel" to="/mobile_robot/cmd_vel"/>
     </node>
-  </group>
+  </group> -->
 </launch>

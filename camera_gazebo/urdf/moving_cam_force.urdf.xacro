@@ -1,0 +1,142 @@
+<?xml version="1.0"?>
+
+<robot name="test_model" xmlns:xacro="http://www.ros.org/wiki/xacro"> 
+  <xacro:property name="pi" value="3.1415"/>
+
+  <!-- root link, on the ground just below the model origin -->
+  <link name="base_footprint">
+   <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.001 0.001 0.001" />
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="base_link_joint" type="fixed">
+    <origin xyz="0.0 0 0.00" rpy="0 0 0" />
+    <parent link="base_footprint"/>
+    <child link="base_link" />
+  </joint>
+
+
+  <!-- the model -->
+  <link name="base_link">
+    <inertial>
+      <mass value="1000000" />
+      <origin xyz="0 0 0.00" />
+      <inertia ixx= "100000" ixy= "0.0" ixz= "0.0"
+        iyy= "100000" iyz= "0.0"
+        izz= "100000" />
+    </inertial>
+    <visual>
+      <geometry>
+        <box size="0.001 0.001 0.001" /> <!-- does not need to match collision -->
+      </geometry>
+    </visual>
+  </link>
+
+
+
+
+  <!-- <gazebo>
+    <plugin name="object_controller" filename="libgazebo_ros_force_based_move.so">
+      <commandTopic>cmd_vel</commandTopic>
+      <odometryTopic>odom</odometryTopic>
+      <odometryFrame>odom</odometryFrame>
+      <odometryRate>20.0</odometryRate>
+      <robotBaseFrame>base_link</robotBaseFrame>
+    </plugin>
+  </gazebo> -->
+
+  <!-- <gazebo> 
+    <plugin name="ros_force_based_controller" filename="libgazebo_ros_force_based_move.so"> 
+    <commandTopic>cmd_vel</commandTopic> 
+    <odometryTopic>odom</odometryTopic> 
+    <odometryFrame>odom</odometryFrame> 
+    <odometryRate>100.0</odometryRate> 
+    <robotBaseFrame>base_footprint</robotBaseFrame> 
+    <publishOdometryTf>true</publishOdometryTf> 
+    <yaw_velocity_p_gain>500</yaw_velocity_p_gain> 
+    <x_velocity_p_gain>1000</x_velocity_p_gain> 
+    <y_velocity_p_gain>1000</y_velocity_p_gain> 
+    <cmdVelTimeOut>0.25</cmdVelTimeOut> 
+    </plugin> 
+  </gazebo> -->
+
+  <!-- <gazebo>
+    <plugin name="object_controller" filename="libgazebo_ros_planar_move.so">
+      <commandTopic>cmd_vel</commandTopic>
+      <odometryTopic>odom</odometryTopic>
+      <odometryFrame>odom</odometryFrame>
+      <odometryRate>20.0</odometryRate>
+      <robotBaseFrame>base_footprint</robotBaseFrame>
+    </plugin>
+  </gazebo> -->
+
+  <gazebo>
+    <plugin name="object_controller" filename="libgazebo_ros_planar_move.so">
+      <commandTopic>cmd_vel</commandTopic>
+      <odometryTopic>odom</odometryTopic>
+      <odometryFrame>odom</odometryFrame>
+      <odometryRate>20.0</odometryRate>
+      <robotBaseFrame>base_link</robotBaseFrame>
+    </plugin>
+  </gazebo>
+
+
+  <gazebo>
+    <plugin name="imu_plugin" filename="libgazebo_ros_imu.so">
+      <alwaysOn>true</alwaysOn>
+      <bodyName>base_link</bodyName>
+      <topicName>camera_imu</topicName>
+      <serviceName>imu_service</serviceName>
+      <gaussianNoise>0.0</gaussianNoise>
+      <updateRate>100.0</updateRate>
+    </plugin>
+  </gazebo>
+
+  <!-- <gazebo reference="base_link">
+    <gravity>true</gravity>
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>true</visualize>
+      <topic>imu</topic>
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <topicName>imu</topicName>
+        <bodyName>base_link</bodyName>
+        <updateRateHZ>10.0</updateRateHZ>
+        <gaussianNoise>0.0</gaussianNoise>
+        <xyzOffset>0 0 0</xyzOffset>
+        <rpyOffset>0 0 0</rpyOffset>
+        <frameName>base_link</frameName>
+        <initialOrientationAsReference>false</initialOrientationAsReference>
+      </plugin>
+      <pose>0 0 0 0 0 0</pose>
+    </sensor>
+  </gazebo> -->
+
+
+
+
+
+
+    <!-- <xacro:include filename="$(find realsense_gazebo_plugin)/urdf/realsense-RS200.macro.xacro"/>
+    <xacro:realsense-rs200 prefix="" parent="base_link">
+        <origin xyz="0 0 0" rpy="0 0 0" />   
+    </xacro:realsense-rs200> -->
+
+
+    <xacro:include filename="$(find realsense_gazebo_plugin)/urdf/realsense-RS200.macro.xacro"/>
+    <!-- Create two camera instances -->
+    <xacro:realsense-rs200 prefix="left_" parent="base_link">
+        <origin xyz="0 0.0 0.0" rpy="0 0 0" />
+    </xacro:realsense-rs200>
+    <xacro:realsense-rs200 prefix="right_" parent="base_link">
+        <origin xyz="0 -0.1 0.0" rpy="0 0 0" />
+    </xacro:realsense-rs200>
+
+
+
+</robot>

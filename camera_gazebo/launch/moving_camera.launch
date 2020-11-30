@@ -1,0 +1,58 @@
+<launch>
+
+    <env name="GAZEBO_MODEL_PATH" value="$(find camera_gazebo)"/>
+
+    <param
+        name="robot_description"
+        command="$(find xacro)/xacro '$(find mobile_robot_description)/xacro/robot.xacro'"
+    />
+    <include file="$(find camera_gazebo)/launch/hallway.launch">
+    </include>
+    <node
+        name="spawn_model"
+        pkg="gazebo_ros"
+        type="spawn_model"
+        args="-z .7 -urdf -model robot -param robot_description"
+    />
+
+    <arg name="paused" default="false"/>
+    <arg name="use_sim_time" default="true"/>
+    <arg name="gui" default="true"/>
+    <arg name="headless" default="false"/>
+    <arg name="debug" default="false"/>
+
+    <rosparam command="load" file="$(find mobile_robot_simulation)/config/joints.yaml" ns="mobile_robot_joint_state_controller"/>
+
+    <rosparam command="load" file="$(find mobile_robot_simulation)/config/diffdrive.yaml" ns="mobile_robot"/>
+
+    <node name="mobile_robot_controller_spawner" pkg="controller_manager" type="spawner" args="mobile_robot_joint_state_controller mobile_robot --shutdown-timeout 3"/>
+
+    <!-- Load joint controller configurations from YAML file to parameter server -->
+  <rosparam file="$(find camera_gazebo)/config/cam.yaml" command="load"/>
+
+  <!-- load the controllers -->
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+    output="screen"  args="cam_revolute_position_controller cam_prismatic_position_controller joint_state_controller"/>
+
+
+    <node pkg="robot_state_publisher" type="robot_state_publisher"  name="rob_st_pubc">
+      <param name="publish_frequency" type="double" value="30.0" />
+    </node>
+
+    <node pkg="camera_gazebo" type="camera_control.py" name="camera_controller" output="screen">
+    </node>
+
+    <!-- <node pkg="camera_gazebo" type="imagePicker.py" name="camera_conr" output="screen">
+    </node> -->
+
+    <!-- <node name="image_view" pkg="image_view" type="image_view" respawn="false" output="screen">
+    <remap from="image" to="/r200/camera/ir/image_raw" />
+    </node>
+
+    <node name="image_view1" pkg="image_view" type="image_view" respawn="false" output="screen">
+    <remap from="image" to="/r200/camera/ir2/image_raw" />
+    </node> -->
+
+
+
+</launch>
