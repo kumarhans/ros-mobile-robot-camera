@@ -3,8 +3,26 @@
 
 https://github.com/akshaydr/ros-mobile-robot
 
-# ros-mobile-robot
-A tutorial on building simulated mobile robot in ROS
+# ros-mobile-robot-camera
+Biulding on Mobile Robot code by adding a moving stereo camera and imu
+ 
+## Building
 
-![GitHub Logo](/readme_images/hallway.gif)
-Format: ![Alt Text](url)
+To build from source, clone the latest version from this repository into your catkin workspace and compile the package using
+
+	cd catkin_workspace/src
+	git clone https://github.com/kumarhans/ros-mobile-robot-camera.git
+	cd ../
+	catkin_make
+
+
+## Usage
+
+Run the main visual odometry node with
+
+	roslaunch camera_gazebo moving_camera.launch
+  
+ 
+
+![Hallway Gif](/readme_images/hallway.gif)
+ 
