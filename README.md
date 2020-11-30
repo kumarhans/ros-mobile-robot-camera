@@ -18,7 +18,7 @@ To build from source, clone the latest version from this repository into your ca
 
 ## Usage
 
-Run the main visual odometry node with
+Run the main simulator node with
 
 	roslaunch camera_gazebo moving_camera.launch
   
