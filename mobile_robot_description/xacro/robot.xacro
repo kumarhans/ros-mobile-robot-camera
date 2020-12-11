@@ -31,7 +31,7 @@
     </link>
 
     <joint name="base_link_${name}" type="continuous">
-      <origin xyz="${y*0.25} ${x*0.25} 0" rpy="0 0 0"/>
+      <origin xyz="${y*0.18} ${x*0.25} 0" rpy="0 0 0"/>
       <axis rpy="0 0 0" xyz="0 1 0"/>
       <parent link="base_link"/>
       <child link="${name}"/>
@@ -52,7 +52,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <box size="0.6 0.4 0.10"/>
+        <box size="0.35 0.4 0.10"/>
       </geometry>
       <material name="acrylic">
         <color rgba="1 1 1 0.8"/>
@@ -61,7 +61,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <box size="0.6 0.4 0.10"/>
+        <box size="0.35 0.4 0.10"/>
       </geometry>
     </collision>
     <xacro:default_inertial mass="20"/>
