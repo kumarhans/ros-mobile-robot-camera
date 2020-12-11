@@ -27,14 +27,14 @@ def talker():
  
         newt = (t-5) 
         msg = Twist()
-        msg.linear.x = 0.1 
+        msg.linear.x = 0.5 
         msg.linear.y = 0.0
         msg.linear.z = 0.0
         msg.angular.x = 0.0
         msg.angular.y = 0
         msg.angular.z = 0
         frequency = .7
-        upDownAngle = 35/180.0*math.pi
+        upDownAngle = 0/180.0*math.pi
 
         phase = math.sin(frequency*(newt)*(2*math.pi))/(abs(math.sin(frequency*(newt)*(2*math.pi)))**(.4))
         if t > 5:
