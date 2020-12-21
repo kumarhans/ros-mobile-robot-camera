@@ -8,12 +8,12 @@
     />
     <include file="$(find camera_gazebo)/launch/hallway.launch">
     </include>
-    <node
+    <!-- <node
         name="spawn_model"
         pkg="gazebo_ros"
         type="spawn_model"
         args="-z .7 -urdf -model robot -param robot_description"
-    />
+    /> -->
 
     <arg name="paused" default="false"/>
     <arg name="use_sim_time" default="true"/>
@@ -39,8 +39,8 @@
       <param name="publish_frequency" type="double" value="30.0" />
     </node>
 
-    <node pkg="camera_gazebo" type="camera_control.py" name="camera_controller" output="screen">
-    </node>
+    <!-- <node pkg="camera_gazebo" type="camera_control.py" name="camera_controller" output="screen">
+    </node> -->
 
     <!-- <node pkg="camera_gazebo" type="imagePicker.py" name="camera_conr" output="screen">
     </node> -->

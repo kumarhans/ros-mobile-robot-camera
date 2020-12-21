@@ -1,52 +1,8 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mobile_robot">
-  <xacro:macro name="default_inertial" params="mass">
-    <inertial>
-      <mass value="${mass}"/>
-      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
-    </inertial>
-  </xacro:macro>
-  <xacro:macro name="default_inertial" params="mass">
-    <inertial>
-      <mass value="${mass}"/>
-      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
-    </inertial>
-  </xacro:macro>
 
-  <xacro:macro name="wheel" params="name x y">
-    <link name="${name}">
-      <visual>
-        <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
-        <geometry>
-          <cylinder length="0.04" radius="0.1"/>
-        </geometry>
-      </visual>
-      <collision>
-        <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
-        <geometry>
-          <cylinder length="0.04" radius="0.1"/>
-        </geometry>
-      </collision>
-      <xacro:default_inertial mass="0.6"/>
-    </link>
+ 
 
-    <joint name="base_link_${name}" type="continuous">
-      <origin xyz="${y*0.25} ${x*0.25} 0" rpy="0 0 0"/>
-      <axis rpy="0 0 0" xyz="0 1 0"/>
-      <parent link="base_link"/>
-      <child link="${name}"/>
-    </joint>
-
-    <transmission name="base_link_${name}_wheel_trans">
-      <type>transmission_interface/SimpleTransmission</type>
-      <actuator name="base_link_${name}_wheel_motor">
-        <mechanicalReduction>1</mechanicalReduction>
-      </actuator>
-      <joint name="base_link_${name}">
-        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-      </joint>
-    </transmission>
-  </xacro:macro>
 
   <link name="base_link">
     <visual>
@@ -64,7 +20,10 @@
         <box size="0.6 0.4 0.10"/>
       </geometry>
     </collision>
-    <xacro:default_inertial mass="20"/>
+    <inertial>
+      <mass value="20.0"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
   </link>
 
   <joint name="cam_stand_joint" type="fixed">
@@ -253,12 +212,158 @@
   </gazebo>
 
 
+
+  <link name="wh_left_back">
+    <visual>
+      <origin xyz="0 0 0" rpy="1.57079632679 0 0"/>
+      <geometry>
+        <cylinder length="0.04" radius="0.1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="1.57079632679 0 0"/>
+      <geometry>
+        <cylinder length="0.04" radius="0.1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.0"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+  </link>
+
+  <joint name="base_link_wh_left_back" type="continuous">
+    <origin xyz="-.25 .25 0" rpy="0 0 0"/>
+    <axis rpy="0 0 0" xyz="0 1 0"/>
+    <parent link="base_link"/>
+    <child link="wh_left_back"/>
+  </joint>
+
+  <transmission name="base_link_wh_left_back_wheel_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="base_link_wh_left_back_wheel_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="base_link_wh_left_back">
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+
+  <link name="wh_right_back">
+    <visual>
+      <origin xyz="0 0 0" rpy="1.57079632679 0 0"/>
+      <geometry>
+        <cylinder length="0.04" radius="0.1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="1.57079632679 0 0"/>
+      <geometry>
+        <cylinder length="0.04" radius="0.1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.0"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+  </link>
+
+  <joint name="base_link_wh_right_back" type="continuous">
+    <origin xyz="-.25 -.25 0" rpy="0 0 0"/>
+    <axis rpy="0 0 0" xyz="0 1 0"/>
+    <parent link="base_link"/>
+    <child link="wh_right_back"/>
+  </joint>
+
+  <transmission name="base_link_wh_right_back_wheel_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="base_link_wh_right_back_wheel_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="base_link_wh_right_back">
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+
+  <link name="wh_left_front">
+    <visual>
+      <origin xyz="0 0 0" rpy="1.57079632679 0 0"/>
+      <geometry>
+        <cylinder length="0.04" radius="0.1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="1.57079632679 0 0"/>
+      <geometry>
+        <cylinder length="0.04" radius="0.1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.0"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+  </link>
+
+  <joint name="base_link_wh_left_front" type="continuous">
+    <origin xyz="0.25 0.25 0" rpy="0 0 0"/>
+    <axis rpy="0 0 0" xyz="0 1 0"/>
+    <parent link="base_link"/>
+    <child link="wh_left_front"/>
+  </joint>
+
+  <transmission name="base_link_wh_left_front_wheel_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="base_link_wh_left_front_wheel_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="base_link_wh_left_front">
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+
+  <link name="wh_right_front">
+    <visual>
+      <origin xyz="0 0 0" rpy="1.57079632679 0 0"/>
+      <geometry>
+        <cylinder length="0.04" radius="0.1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="1.57079632679 0 0"/>
+      <geometry>
+        <cylinder length="0.04" radius="0.1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.0"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+    </inertial>
+  </link>
+
+  <joint name="base_link_wh_right_front" type="continuous">
+    <origin xyz="0.25 -.25 0" rpy="0 0 0"/>
+    <axis rpy="0 0 0" xyz="0 1 0"/>
+    <parent link="base_link"/>
+    <child link="wh_right_front"/>
+  </joint>
+
+  <transmission name="base_link_wh_right_front_wheel_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="base_link_wh_right_front_wheel_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="base_link_wh_right_front">
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+
     
 
-  <xacro:wheel name="wh_left_back" x="1" y="-1"/>
-  <xacro:wheel name="wh_right_back" x="-1" y="-1"/>
-  <xacro:wheel name="wh_left_front" x="1" y="1"/>
-  <xacro:wheel name="wh_right_front" x="-1" y="1"/>
+  
 
   
 
