@@ -51,7 +51,12 @@ def talker():
     pubMobile = rospy.Publisher('/mobile_robot/cmd_vel', Twist)
     pubCam = rospy.Publisher('/cam_revolute_position_controller/command', Float64)
     pubCamPris = rospy.Publisher('/cam_prismatic_position_controller/command', Float64)
+<<<<<<< HEAD
     rospy.Subscriber("/gazebo/link_states",LinkStates, gaz_callback)
+=======
+    pubPhase = rospy.Publisher('/mobile_robot/phase', Float64)
+
+>>>>>>> 99d679d79a0c0a781e555b51db3559d3dfc8dedc
 
     rospy.init_node('control', anonymous=True)
     rate = rospy.Rate(100) # 10hz
@@ -75,23 +80,33 @@ def talker():
  
         newt = (t-5) 
         msg = Twist()
-        msg.linear.x = 0.5 
+        msg.linear.x = 0.2 
         msg.linear.y = 0.0
         msg.linear.z = 0.0
         msg.angular.x = 0.0
         msg.angular.y = 0
         msg.angular.z = 0
         frequency = .7
-        upDownAngle = 0/180.0*math.pi
+        upDownAngle = 25/180.0*math.pi
+        heaveLength = .3
 
-        phase = math.sin(frequency*(newt)*(2*math.pi))/(abs(math.sin(frequency*(newt)*(2*math.pi)))**(.4))
+        phase = math.sin(frequency*(newt)*(2*math.pi))/(abs(math.sin(frequency*(newt)*(2*math.pi)))**(.5))
         if t > 5:
             pubMobile.publish(msg)
             msg = Float64()
             msg.data = upDownAngle*phase
             pubCam.publish(msg)
+            msg.data = heaveLength*phase
+            pubCamPris.publish(msg)
+        else:
+            msg = Float64()
+            msg.data = 0 
+            pubCam.publish(msg)
             pubCamPris.publish(msg)
         
+        msg = Float64()
+        msg.data = phase
+        pubPhase.publish(msg)
         rate.sleep()
         t = t + 1.0/100.0
 

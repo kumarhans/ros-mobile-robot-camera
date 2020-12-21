@@ -8,7 +8,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <box size="0.6 0.4 0.10"/>
+        <box size="0.35 0.4 0.10"/>
       </geometry>
       <material name="acrylic">
         <color rgba="1 1 1 0.8"/>
@@ -17,7 +17,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <box size="0.6 0.4 0.10"/>
+        <box size="0.35 0.4 0.10"/>
       </geometry>
     </collision>
     <inertial>
