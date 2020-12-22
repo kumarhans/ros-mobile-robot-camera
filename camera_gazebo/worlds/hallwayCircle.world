@@ -21,22 +21,24 @@
 
 
 <model name="my_mesh">
-  <pose>9.5 0 .125 0 0 0</pose>
+  <pose>0 0 .125 0 0 0</pose>
     <static>true</static>
     
     <link name="robot_link1">
       <collision name="body_collision1">
         <geometry>
-          <box>
-            <size>20 3.0 .25</size>
-          </box>
+          <cylinder>
+              <radius> 4</radius>
+              <length>.25</length>
+            </cylinder>
         </geometry>
       </collision>
       <visual name="body_visual1">
         <geometry>
-          <box>
-            <size>20 3.0 .25</size>
-          </box>
+          <cylinder>
+              <radius> 4</radius>
+              <length>.25</length>
+            </cylinder>
         </geometry>
         <material>
           <script>
@@ -52,20 +54,22 @@
 
   <model name="Color Tutorial Modl">
     <static>true</static>
-    <pose>9.5 1.375 1.25 0 0 0</pose>
+    <pose>0 0 1.25 0 0 0</pose>
     <link name="robot_link">
       <collision name="body_collision">
         <geometry>
-          <box>
-            <size>20 .25 2</size>
-          </box>
+          <cylinder>
+              <radius> 2.5</radius>
+              <length>2</length>
+            </cylinder>
         </geometry>
       </collision>
       <visual name="body_visual">
         <geometry>
-          <box>
-            <size>20 .25 2</size>
-          </box>
+          <cylinder>
+              <radius> 2.5</radius>
+              <length>2</length>
+            </cylinder>
         </geometry>
         <material>
           <script>
@@ -79,52 +83,27 @@
     </link>
   </model>
 
-  <model name="Color Tutorial ">
-    <static>true</static>
-    <pose>9.5 -1.375 1.25 0 0 0</pose>
-    <link name="robot_link2">
-      <collision name="body_collision2">
-        <geometry>
-          <box>
-            <size>20 .25 2</size>
-          </box>
-        </geometry>
-      </collision>
-      <visual name="body_visual2">
-        <geometry>
-          <box>
-            <size>20 .25 2</size>
-          </box>
-        </geometry>
-        <material>
-          <script>
-            <uri>
-              model://meshes//example_model/materials/scripts/repeated3.material
-            </uri>
-            <name> RepeatedTexture3 </name>
-          </script>
-        </material>
-      </visual>
-    </link>
-  </model>
+ 
 
 <model name="my_mesh2">
-  <pose>9.5 0 2.375 0 0 0</pose>
+  <pose>0 0 2.375 0 0 0</pose>
     <static>true</static>
     
     <link name="robot_link1">
       <collision name="body_collision1">
         <geometry>
-          <box>
-            <size>20 3.0 .25</size>
-          </box>
+          <cylinder>
+              <radius> 4</radius>
+              <length>.25</length>
+            </cylinder>
         </geometry>
       </collision>
       <visual name="body_visual1">
         <geometry>
-          <box>
-            <size>20 3.0 .25</size>
-          </box>
+          <cylinder>
+              <radius> 4</radius>
+              <length>.25</length>
+            </cylinder>
         </geometry>
         <material>
           <script>

@@ -13,50 +13,39 @@ import math
 import roslaunch
 
 
-
-
-
-
-
+global_gt_pos = [0,0,0,0,0,0,0]
+state_msg = ModelState()
+state_msg.model_name = 'mobile_robot'
+state_msg.pose.position.x = 0
+state_msg.pose.position.y = 0
+state_msg.pose.position.z = 0.7
+state_msg.pose.orientation.x = 0
+state_msg.pose.orientation.y = 0
+state_msg.pose.orientation.z = 0
+state_msg.pose.orientation.w = 0
 
 
 def gaz_callback(msgs):
-    if msgs.pose[11].position.x > 10.0 and msgs.pose[11].position.x < 10.1:
+    global global_gt_pos
+    global_gt_pos = [msgs.pose[11].position.x, msgs.pose[11].position.y, msgs.pose[11].position.z, msgs.pose[11].orientation.w, msgs.pose[11].orientation.x, msgs.pose[11].orientation.y,msgs.pose[11].orientation.z]
 
-        state_msg = ModelState()
-        state_msg.model_name = 'mobile_robot'
-        state_msg.pose.position.x = 0
-        state_msg.pose.position.y = 0
-        state_msg.pose.position.z = 0.7
-        state_msg.pose.orientation.x = 0
-        state_msg.pose.orientation.y = 0
-        state_msg.pose.orientation.z = 0
-        state_msg.pose.orientation.w = 0
-        t = 0
-       
 
-        rospy.wait_for_service('/gazebo/set_model_state')
-        try:
-            set_state = rospy.ServiceProxy('/gazebo/set_model_state', SetModelState)
-            resp = set_state( state_msg )
-        except rospy.ServiceException, e:
-            print "Service call failed: %s" % e
+
 
 
 
 def talker():
 
     Movement = True
+    global global_gt_pos
+    global state_msg
 
     pubMobile = rospy.Publisher('/mobile_robot/cmd_vel', Twist)
     pubCam = rospy.Publisher('/cam_revolute_position_controller/command', Float64)
     pubCamPris = rospy.Publisher('/cam_prismatic_position_controller/command', Float64)
-<<<<<<< HEAD
     rospy.Subscriber("/gazebo/link_states",LinkStates, gaz_callback)
-=======
     pubPhase = rospy.Publisher('/mobile_robot/phase', Float64)
 
->>>>>>> 99d679d79a0c0a781e555b51db3559d3dfc8dedc
 
     rospy.init_node('control', anonymous=True)
     rate = rospy.Rate(100) # 10hz
@@ -67,14 +56,15 @@ def talker():
     first = True
     t = 0
 
-    package = 'rqt_gui'
-    executable = 'rqt_gui'
-    node = roslaunch.core.Node(package, executable)
+    package = 'vins'
+    executable = 'vins_node'
+    node = roslaunch.core.Node(package, executable, name='vins_estimator', args='/home/hans/catkin_ws/src/VINS-Fusion/config/realsense_d435i_sim/realsense_stereo_imu_config.yaml')
+
     launch = roslaunch.scriptapi.ROSLaunch()
     launch.start()
+
     process = launch.launch(node)
-    print(process.is_alive())
-    #process.stop()
+    
 
     while not rospy.is_shutdown():
  
@@ -86,12 +76,12 @@ def talker():
         msg.angular.x = 0.0
         msg.angular.y = 0
         msg.angular.z = 0
-        frequency = .7
+        frequency = .25
         upDownAngle = 25/180.0*math.pi
-        heaveLength = .3
+        heaveLength = .15
 
         phase = math.sin(frequency*(newt)*(2*math.pi))/(abs(math.sin(frequency*(newt)*(2*math.pi)))**(.5))
-        if t > 5:
+        if t > 10:
             pubMobile.publish(msg)
             msg = Float64()
             msg.data = upDownAngle*phase
@@ -109,6 +99,24 @@ def talker():
         pubPhase.publish(msg)
         rate.sleep()
         t = t + 1.0/100.0
+
+        if global_gt_pos[0] > 10.0:        
+            t = 0
+            rospy.wait_for_service('/gazebo/set_model_state')
+            try:
+                set_state = rospy.ServiceProxy('/gazebo/set_model_state', SetModelState)
+                resp = set_state( state_msg )
+            except rospy.ServiceException, e:
+                print "Service call failed: %s" % e
+            
+            process.stop()
+            print process.is_alive()
+            process = launch.launch(node)
+            
+            
+            
+
+
 
 if __name__ == '__main__':
 
